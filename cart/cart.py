@@ -1,6 +1,6 @@
 from decimal import Decimal
 from django.conf import settings
-from store.models import Book
+from store.models import Artifact
 
 
 class Cart(object):
@@ -11,22 +11,22 @@ class Cart(object):
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
-    def add(self, book):
-        book_id = str(book.id)
-        if book_id not in self.cart:
-            self.cart[book_id] = {'quantity': 0, 'price': str(book.price)}
-            self.cart[book_id]['quantity'] = 1
+    def add(self, artifact):
+        artifact_id = str(artifact.id)
+        if artifact_id not in self.cart:
+            self.cart[artifact_id] = {'quantity': 0, 'price': str(artifact.price)}
+            self.cart[artifact_id]['quantity'] = 1
         else:    
-            if self.cart[book_id]['quantity'] < 10:
-                self.cart[book_id]['quantity'] += 1
+            if self.cart[artifact_id]['quantity'] < 10:
+                self.cart[artifact_id]['quantity'] += 1
 
             
 
         self.save()
 
-    def update(self, book, quantity):
-        book_id = str(book.id)
-        self.cart[book_id]['quantity'] = quantity
+    def update(self, artifact, quantity):
+        artifact_id = str(artifact.id)
+        self.cart[artifact_id]['quantity'] = quantity
         
         self.save()
 
@@ -34,17 +34,17 @@ class Cart(object):
         self.session[settings.CART_SESSION_ID] = self.cart
         self.session.modified = True
 
-    def remove(self, book):
-        book_id = str(book.id)
-        if book_id in self.cart:
-            del self.cart[book_id]
+    def remove(self, artifact):
+        artifact_id = str(artifact.id)
+        if artifact_id in self.cart:
+            del self.cart[artifact_id]
             self.save()
 
     def __iter__(self):
-        book_ids = self.cart.keys()
-        books = Book.objects.filter(id__in=book_ids)
-        for book in books:
-            self.cart[str(book.id)]['book'] = book
+        artifact_ids = self.cart.keys()
+        artifacts = artifact.objects.filter(id__in=artifact_ids)
+        for artifact in artifacts:
+            self.cart[str(artifact.id)]['artifact'] = artifact
 
         for item in self.cart.values():
             item['price'] = Decimal(item['price'])

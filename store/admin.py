@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Writer, Book, Slider
+from .models import Category, Writer, Artifact, Slider
 
 
 class AddCategory(admin.ModelAdmin):
@@ -14,13 +14,13 @@ class AddWriter(admin.ModelAdmin):
 
 admin.site.register(Writer, AddWriter)
 
-class AddBook(admin.ModelAdmin):
+class Addartifact(admin.ModelAdmin):
 	list_display = ['name', 'price', 'stock', 'status', 'created', 'updated']
 	list_filter = ['status', 'created', 'updated']
 	list_editable = ['price', 'stock', 'status']
 	prepopulated_fields = {'slug': ('name',)}
 
-admin.site.register(Book, AddBook)
+admin.site.register(artifact, Addartifact)
 
 class AddSlider(admin.ModelAdmin):
 	list_display = ['title', 'created', 'updated']

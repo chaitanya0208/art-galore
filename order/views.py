@@ -18,13 +18,13 @@ def order_create(request):
 				order = form.save(commit=False)
 				order.customer = User.objects.get(id=request.user.id)
 				order.payable = cart.get_total_price()
-				order.totalbook = len(cart) # len(cart.cart) // number of individual book
+				order.totalartifact = len(cart) # len(cart.cart) // number of individual artifact
 				order.save()
 
 				for item in cart:
 					OrderItem.objects.create(
 						order=order, 
-						book=item['book'], 
+						artifact=item['artifact'], 
 						price=item['price'], 
 						quantity=item['quantity']
 						)
@@ -37,7 +37,7 @@ def order_create(request):
 		if len(cart) > 0:
 			return render(request, 'order/order.html', {"form": form})
 		else:
-			return redirect('store:books')
+			return redirect('store:artifacts')
 	else:
 		return redirect('store:signin')
 			

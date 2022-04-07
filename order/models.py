@@ -1,5 +1,5 @@
 from django.db import models
-from store.models import Book
+from store.models import Artifact
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 
@@ -17,7 +17,7 @@ class Order(models.Model):
 	account_no = models.PositiveIntegerField(max_length = 10)
 	transaction_id = models.PositiveIntegerField()
 	payable = models.IntegerField()
-	totalbook = models.IntegerField()
+	totalartifact = models.IntegerField()
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
 	paid = models.BooleanField(default=False)
@@ -34,7 +34,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    artifact = models.ForeignKey(artifact, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(default=1)
 

@@ -22,7 +22,7 @@ class Writer(models.Model):
 	def __str__(self):
 		return self.name
 
-class Book(models.Model):
+class artifact(models.Model):
 	writer = models.ForeignKey(Writer, on_delete = models.CASCADE)
 	category = models.ForeignKey(Category, on_delete = models.CASCADE)
 	name = models.CharField(max_length = 100)
@@ -30,7 +30,7 @@ class Book(models.Model):
 	price = models.IntegerField()
 	stock = models.IntegerField()
 	coverpage = models.FileField(upload_to = "coverpage/")
-	bookpage = models.FileField(upload_to = "bookpage/")
+	artifactpage = models.FileField(upload_to = "artifactpage/")
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
 	totalreview = models.IntegerField(default=1)
@@ -43,7 +43,7 @@ class Book(models.Model):
 
 class Review(models.Model):
 	customer = models.ForeignKey(User, on_delete = models.CASCADE)
-	book = models.ForeignKey(Book, on_delete = models.CASCADE)
+	artifact = models.ForeignKey(artifact, on_delete = models.CASCADE)
 	review_star = models.IntegerField()
 	review_text = models.TextField()
 	created = models.DateTimeField(auto_now_add=True)

@@ -1,27 +1,27 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
-from store.models import Book, Category
+from store.models import Artifact, Category
 from .cart import Cart
 
-def cart_add(request, bookid):
+def cart_add(request, artifactid):
 	cart = Cart(request)  
-	book = get_object_or_404(Book, id=bookid) 
-	cart.add(book=book)
+	artifact = get_object_or_404(artifact, id=artifactid) 
+	cart.add(artifact=artifact)
 
 	return redirect('store:index')
 
-def cart_update(request, bookid, quantity):
+def cart_update(request, artifactid, quantity):
 	cart = Cart(request) 
-	book = get_object_or_404(Book, id=bookid) 
-	cart.update(book=book, quantity=quantity)
-	price = (book.price*quantity)
+	artifact = get_object_or_404(artifact, id=artifactid) 
+	cart.update(artifact=artifact, quantity=quantity)
+	price = (artifact.price*quantity)
 
 	return render(request, 'cart/price.html', {"price":price})
 
-def cart_remove(request, bookid):
+def cart_remove(request, artifactid):
     cart = Cart(request)
-    book = get_object_or_404(Book, id=bookid)
-    cart.remove(book)
+    artifact = get_object_or_404(artifact, id=artifactid)
+    cart.remove(artifact)
     return redirect('cart:cart_details')
 
 def total_cart(request):
